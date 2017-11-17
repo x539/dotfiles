@@ -1,0 +1,10 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.tabSize": 4,
+    "editor.renderWhitespace": "boundary",
+    "editor.cursorStyle": "line-thin",
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": true
+}
