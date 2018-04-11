@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/false
 
 : ${XDG_BIN_HOME:="$HOME/.local/bin"}
 : ${XDG_CACHE_HOME:="$HOME/.cache"}
@@ -11,6 +11,4 @@ export PATH="$XDG_BIN_HOME:$PATH"
 export INPUTRC="$XDG_CONFIG_HOME/inputrc"
 export TMUX_TMPDIR="${XDG_RUNTMIME_DIR}"
 
-if command -v tmux >/dev/null 2>&1; then
-	alias tmux='tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf'
-fi
+source $XDG_CONFIG_HOME/sh/profile.sh
