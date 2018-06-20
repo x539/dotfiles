@@ -1,3 +1,6 @@
+[Encoding Options]
+DefaultEncoding=UTF-8
+
 [General]
 Command=/usr/bin/tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf new -As Konsole
 Name=tmux
