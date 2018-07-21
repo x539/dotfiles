@@ -1,12 +1,6 @@
 #[core]
 #	pager = less -FSXR
 
-[diff]
-	tool = vscode
-
-[difftool "vscode"]
-	cmd = code --wait --diff $LOCAL $REMOTE
-
 [alias]
 	br = branch
 	ca = commit --amend
@@ -14,6 +8,56 @@
 	cl = clean --interactive
 	di = diff
 	ds = diff --staged
+	vd = difftool --tool=vimdiff --no-prompt --trust-exit-code
 	st = status
-	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
-	ll = log --graph --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	l  = log --date=local --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]\\ %Cgreen%ad" --first-parent -m
+	ls = log --pretty=format:"%C(yellow)%h\\ %Cgreen%ci%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	ll = log --graph --date=relative --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]\\ %Cgreen%ad"
+	mt = mergetool
+
+[fetch]
+	prune = true
+
+[diff]
+	indentHeuristic = true
+	noprefix = true
+	rename = copy
+	tool = vd
+	guitool = vscode
+
+
+[difftool "vd"]
+	cmd = vimdiff $LOCAL $REMOTE
+	prompt = false
+	trustExitCode = true
+
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+	# make sure the first-parent is always the current branch; ff-merges would break this
+	ff = false
+	guitool = vscode
+
+[mergetool]
+	# Do not polute the working dir with merge files
+	writeToTemp = true
+
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+	trustExitCode = false
+
+[pull]
+	# Keep the git history clean
+	rebase = true
+
+[rebase]
+	abbreviateCommands = true
+	missingCommitsCheck = error
+
+[user]
+	# Do not fallback to <username@hostname> style user configuration
+	useConfigOnly = true
+
+[ui]
+	color = auto
