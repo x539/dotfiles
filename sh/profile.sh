@@ -1,6 +1,8 @@
 export EDITOR="vi -e"
 export VISUAL="vim"
 
+eval $(dircolors)
+
 source $XDG_CONFIG_HOME/sh/locale.sh
 
 # ADB
