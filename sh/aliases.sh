@@ -1,8 +1,9 @@
 alias ls='ls --color=auto'
-alias dc='docker-compose'
-alias dr='docker-compose run --rm'
+alias ll='ls --color=auto -lZ'
+alias ip='ip -color=auto'
+alias dc='docker compose'
+alias dr='docker compose run --rm'
 alias g='git'
-alias ll='ls --color=auto -l'
 alias sudo='sudo '
 
 
