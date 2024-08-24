@@ -5,6 +5,7 @@ alias dc='docker compose'
 alias dr='docker compose run --rm'
 alias g='git'
 alias sudo='sudo '
+alias diff='diff -U3 --color=auto'
 
 
 if command -v kubectl >/dev/null 2>&1; then
