@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec=/home/andreas/.config/old-autostart-scripts/xKeyboard.sh
+Icon=dialog-scripts
+Name=xKeyboard.sh
+Path=
+Type=Application
+X-KDE-AutostartScript=true

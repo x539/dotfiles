@@ -1,5 +1,7 @@
 export EDITOR="vi -e"
 export VISUAL="vim"
+export KUBE_EDITOR="$VISUAL"
+
 
 eval $(dircolors)
 
