@@ -21,7 +21,12 @@ if [[ $- =~ 'i' ]]; then
 	POWERLINE_BASH_CONTINUATION=1
 	POWERLINE_BASH_SELECT=1
 	powerline-daemon -q
-	source /usr/share/powerline/bindings/bash/powerline.sh
+
+	if [ -v ZSH_NAME ]; then
+		source /usr/share/powerline/bindings/zsh/powerline.zsh
+	elif [ -v BASH ]; then
+		source /usr/share/powerline/bindings/bash/powerline.sh
+	fi
 
 	source $XDG_CONFIG_HOME/sh/aliases.sh
 fi
