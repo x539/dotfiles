@@ -11,11 +11,6 @@ eval $(dircolors)
 
 source $XDG_CONFIG_HOME/sh/locale.sh
 
-# ADB
-if [ -d "$HOME/Android/platform-tools" ]; then
-	export PATH="$HOME/Android/platform-tools:$PATH"
-fi
-
 # Setup Interactive shells
 if [[ $- =~ 'i' ]]; then
 	POWERLINE_BASH_CONTINUATION=1
