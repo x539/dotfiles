@@ -1,4 +1,5 @@
 #!/bin/false
+# https://specifications.freedesktop.org/basedir-spec/latest/
 
 : ${XDG_BIN_HOME:="$HOME/.local/bin"}
 : ${XDG_CACHE_HOME:="$HOME/.cache"}
