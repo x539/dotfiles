@@ -2,6 +2,10 @@ export EDITOR="vi -e"
 export VISUAL="vim"
 export KUBE_EDITOR="$VISUAL"
 
+if [ -x /usr/bin/ccache ]; then
+	export USE_CCACHE="1"
+	export CCACHE_EXEC="/usr/bin/ccache"
+fi
 
 eval $(dircolors)
 
