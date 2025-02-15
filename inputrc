@@ -1,2 +1,4 @@
+set bell-style visible
+set skip-completed-text on
 C-p: history-search-backward
 C-n: history-search-forward
