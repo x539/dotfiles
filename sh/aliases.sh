@@ -9,7 +9,11 @@ alias diff='diff -U3 --color=auto'
 
 
 if command -v kubectl >/dev/null 2>&1; then
-	source <(kubectl completion bash)
+	if [ -v ZSH_NAME ]; then
+		source <(kubectl completion zsh)
+	elif [ -v BASH ]; then
+		source <(kubectl completion bash)
+	fi
 	alias k=kubectl
 	alias kctx='kubectl config use-context'
 	alias kns='kubectl config set-context --current --namespace'
