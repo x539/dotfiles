@@ -1,5 +1,5 @@
-#[core]
-#	pager = less -FSXR
+[core]
+	pager = less -FSXR
 
 [alias]
 	br = branch
@@ -51,6 +51,9 @@
 [pull]
 	# Keep the git history clean
 	rebase = true
+
+[push]
+	autoSetupRemote = true
 
 [rebase]
 	abbreviateCommands = true
