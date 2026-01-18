@@ -14,6 +14,7 @@ export INPUTRC="$XDG_CONFIG_HOME/inputrc"
 export TMUX_TMPDIR="$XDG_RUNTMIME_DIR"
 export HISTFILE="$XDG_STATE_HOME/history/bash"
 export PSQL_HISTORY="$XDG_STATE_HOME/history/psql"
-export PYTHON_HISTFILE="$XDG_STATE_HOME/history/python"
+export PYTHON_HISTORY="$XDG_STATE_HOME/history/python"
+export LESSHISTFILE="$XDG_STATE_HOME/history/less"
 
 source $XDG_CONFIG_HOME/sh/profile.sh
