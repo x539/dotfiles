@@ -1,5 +1,5 @@
-export EDITOR="vi -e"
-export VISUAL="vim"
+export EDITOR="nvim -e"
+export VISUAL="nvim"
 export KUBE_EDITOR="$VISUAL"
 
 if [ -x /usr/bin/ccache ]; then
@@ -19,8 +19,12 @@ if [[ $- =~ 'i' ]]; then
 
 	if [ -v ZSH_NAME ]; then
 		source /usr/share/powerline/bindings/zsh/powerline.zsh
+		source /usr/share/doc/fzf/examples/key-bindings.zsh
+		source /usr/share/doc/fzf/examples/completion.zsh
 	elif [ -v BASH ]; then
 		source /usr/share/powerline/bindings/bash/powerline.sh
+		source /usr/share/doc/fzf/examples/key-bindings.bash
+		source /usr/share/doc/fzf/examples/completion.bash
 	fi
 
 	source $XDG_CONFIG_HOME/sh/aliases.sh
