@@ -2,7 +2,11 @@ vim.opt.ruler = true
 vim.opt.number = true
 vim.wo.relativenumber = true
 
+vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
+vim.opt.winborder = 'rounded'
+
 vim.opt.number = true
+vim.opt.signcolumn = 'yes'
 
 vim.opt.title = true
 vim.opt.showcmd = true
@@ -16,7 +20,7 @@ vim.opt.softtabstop = 0
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 
--- 
+--
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
@@ -35,6 +39,8 @@ vim.opt.spell = true
 vim.opt.spelllang = 'en_us'
 
 vim.opt.scrolloff = 10
+
+vim.opt.iskeyword:append '-'
 
 -- Color
 vim.cmd('syntax enable')

@@ -2,15 +2,55 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
 require('opt')
+require('tmux')
+require('fzf')
 
-local function lspAttach(client, bufnr)
-	vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<Cr>', { noremap = true, silent = true })
-	vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<Cr>', { noremap = true, silent = true })
-end
-
-vim.lsp.config('*', {
-	on_attach = lspAttach
+vim.opt.updatetime = 500
+vim.api.nvim_create_autocmd({'CursorHold','CursorHoldI'}, {
+	callback = function(ev)
+		vim.lsp.buf.document_highlight()
+	end
 })
+vim.api.nvim_create_autocmd({'CursorMoved'}, {
+	callback = function(ev)
+		vim.lsp.buf.clear_references()
+	end
+})
+
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
+vim.api.nvim_create_autocmd('LspAttach', {
+	group = vim.api.nvim_create_augroup('my.lsp', {}),
+	callback = function(args)
+		vim.keymap.set('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<Cr>', { noremap = true, silent = true })
+		vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<Cr>', { noremap = true, silent = true })
+
+		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+		if client:supports_method('textDocument/implementation') then
+			-- Create a keymap for vim.lsp.buf.implementation ...
+			vim.keymap.set('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<Cr>', { noremap = true, silent = true })
+		end
+		-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
+		if client:supports_method('textDocument/completion') then
+			-- Optional: trigger autocompletion on EVERY keypress. May be slow!
+			-- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+			-- client.server_capabilities.completionProvider.triggerCharacters = chars
+			vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+		end
+
+		-- Auto-format ("lint") on save.
+		-- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+		if not client:supports_method('textDocument/willSaveWaitUntil') and client:supports_method('textDocument/formatting') then
+			vim.api.nvim_create_autocmd('BufWritePre', {
+				group = vim.api.nvim_create_augroup('my.lsp', {clear=false}),
+				buffer = args.buf,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+		        end,
+			})
+		end
+	end,
+})
+
 vim.lsp.config['pylsp'] = {
 	cmd = { 'pipenv', 'run', 'pylsp' },
 	filetypes = { 'python' },
@@ -26,10 +66,20 @@ vim.lsp.config['pylsp'] = {
 		},
 	},
 }
-vim.lsp.enable('pylsp')
+
+vim.filetype.add({
+	filename = {
+		['docker-compose.yaml'] = 'yaml.docker-compose',
+		['docker-compose.yml'] = 'yaml.docker-compose',
+	},
+})
+
+vim.lsp.enable({'rust_analyzer','docker_language_server'})
 
 
 vim.keymap.set('i', '<C-Space>', '<C-X><C-O>', { noremap = true })
+
+vim.keymap.set('n', '<leader>e', ':Lex 30<cr>', { noremap = true, silent = true })
 
 -- delete without yank
 vim.keymap.set('n', '<leader>d', '"_d')
@@ -51,17 +101,3 @@ vim.keymap.set('n', '<leader>Y', '"+Y')
 
 vim.keymap.set('n', '<leader>p', '"+p')
 vim.keymap.set('n', '<leader>P', '"+P')
-
-local vimToTmux = { ['k'] = 'U', ['j'] = 'D', ['h'] = 'L', ['l'] = 'R' }
-local function switchPane(direction)
-	local wNr = vim.api.nvim_win_get_number(0)
-	vim.cmd.wincmd(direction)
-	if wNr == vim.api.nvim_win_get_number(0) then
-		os.execute('tmux select-pane -' .. vimToTmux[direction])
-	end
-end
-
-vim.keymap.set('n', '<C-k>', function() switchPane('k') end, { silent = true })
-vim.keymap.set('n', '<C-j>', function() switchPane('j') end, { silent = true })
-vim.keymap.set('n', '<C-h>', function() switchPane('h') end, { silent = true })
-vim.keymap.set('n', '<C-l>', function() switchPane('l') end, { silent = true })
