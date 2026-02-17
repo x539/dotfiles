@@ -17,6 +17,9 @@ if [[ $- =~ 'i' ]]; then
 	POWERLINE_BASH_SELECT=1
 	powerline-daemon -q
 
+	FZF_TMUX_OPTS="-p --preview-window=right"
+	FZF_CTRL_T_OPTS="--preview='batcat --color=always --style=numbers --theme=\"Solarized (light)\" {}'"
+
 	if [ -v ZSH_NAME ]; then
 		source /usr/share/powerline/bindings/zsh/powerline.zsh
 		source /usr/share/doc/fzf/examples/key-bindings.zsh

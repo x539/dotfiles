@@ -1,5 +1,5 @@
 alias ls='ls --color=auto'
-alias ll='ls --color=auto -lZ'
+alias ll='ls --almost-all --color=auto -lZ'
 alias ip='ip -color=auto'
 alias dc='docker compose'
 alias dr='docker compose run --rm'
