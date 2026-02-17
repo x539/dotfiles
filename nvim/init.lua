@@ -6,16 +6,6 @@ require('tmux')
 require('fzf')
 
 vim.opt.updatetime = 500
-vim.api.nvim_create_autocmd({'CursorHold','CursorHoldI'}, {
-	callback = function(ev)
-		vim.lsp.buf.document_highlight()
-	end
-})
-vim.api.nvim_create_autocmd({'CursorMoved'}, {
-	callback = function(ev)
-		vim.lsp.buf.clear_references()
-	end
-})
 
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -25,6 +15,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<Cr>', { noremap = true, silent = true })
 
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
 		if client:supports_method('textDocument/implementation') then
 			-- Create a keymap for vim.lsp.buf.implementation ...
 			vim.keymap.set('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<Cr>', { noremap = true, silent = true })
@@ -46,6 +37,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 				callback = function()
 					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
 		        end,
+			})
+		end
+
+		if client:supports_method('textDocument/documentHighlight') then
+			vim.api.nvim_create_autocmd({'CursorHold','CursorHoldI'}, {
+				callback = function(ev)
+					vim.lsp.buf.document_highlight()
+				end
+			})
+			vim.api.nvim_create_autocmd({'CursorMoved'}, {
+				callback = function(ev)
+					vim.lsp.buf.clear_references()
+				end
 			})
 		end
 	end,
@@ -74,7 +78,7 @@ vim.filetype.add({
 	},
 })
 
-vim.lsp.enable({'rust_analyzer','docker_language_server'})
+vim.lsp.enable({'rust_analyzer','docker_language_server', 'kotlin_lsp'})
 
 
 vim.keymap.set('i', '<C-Space>', '<C-X><C-O>', { noremap = true })
